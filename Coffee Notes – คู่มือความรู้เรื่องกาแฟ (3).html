@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Coffee Notes | คู่มือความรู้เรื่องกาแฟ</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Noto+Sans+Thai:wght@400;500;600&family=Prompt:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#D4B05A;--gold2:#E8C568;--line:rgba(255,255,255,.1);--panel:rgba(12,9,6,.86);--fh:'Prompt','Inter','Noto Sans Thai',sans-serif;color-scheme:dark}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{background:#000;color:#fff;font-family:'Inter','Noto Sans Thai',sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+#stage{position:fixed;inset:0;z-index:0;pointer-events:none}
+@keyframes up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+@keyframes down{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:none}}
+nav{position:fixed;top:calc(14px + env(safe-area-inset-top,0px));left:50%;transform:translateX(-50%);width:min(1120px,calc(100% - 28px));z-index:50;display:flex;justify-content:space-between;align-items:center;padding:8px 8px 8px 20px;background:rgba(15,11,7,.6);backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:999px;animation:down .6s both}
+.brand{font-family:var(--fh);font-weight:600;font-size:16px;display:flex;gap:8px;align-items:center}
+.brand i{width:8px;height:8px;border-radius:50%;background:var(--gold);display:block}
+.links{display:flex;gap:28px}
+.links a{font-size:14px;color:rgba(255,255,255,.65);text-decoration:none;transition:color .2s}
+.links a:hover{color:#fff}
+.cart{background:#fff;color:#000;border:none;border-radius:999px;padding:10px 18px;font:500 13px 'Inter','Noto Sans Thai',sans-serif;cursor:pointer;transition:.2s}
+.cart:hover{background:var(--gold2)}
+section{position:relative;z-index:10}
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:120px max(24px,8vw) 48px;max-width:1240px;touch-action:pan-y;cursor:grab}
+.hero:active{cursor:grabbing}
+.hero>*{animation:up .8s both;max-width:560px}
+.badge{align-self:flex-start;display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:rgba(255,255,255,.05);backdrop-filter:blur(6px);border-radius:999px;padding:7px 14px;font-size:13px;color:rgba(255,255,255,.75);margin-bottom:22px;animation-delay:.1s}
+.badge:before{content:"";width:6px;height:6px;border-radius:50%;background:#5fd38d}
+h1{font-family:var(--fh);font-weight:600;font-size:clamp(42px,6.4vw,84px);line-height:1.15;letter-spacing:-.02em;margin-bottom:18px;animation-delay:.2s}
+h1 em{font-style:normal;color:var(--gold)}
+.sub{font-size:17px;color:rgba(255,255,255,.6);line-height:1.75;margin-bottom:32px;animation-delay:.3s}
+.btns{display:flex;gap:12px;flex-wrap:wrap;animation-delay:.4s}
+.cta,.ghost{border-radius:999px;padding:14px 28px;font:500 14px 'Inter','Noto Sans Thai',sans-serif;cursor:pointer;text-decoration:none;transition:.2s}
+.cta{background:var(--gold);color:#000;border:none}.cta:hover{background:var(--gold2);transform:translateY(-1px)}
+.ghost{border:1px solid rgba(255,255,255,.25);color:#fff}.ghost:hover{background:rgba(255,255,255,.08)}
+.chips{display:flex;gap:10px;flex-wrap:wrap;margin-top:44px;animation-delay:.5s}
+.chips span{font-size:13px;color:rgba(255,255,255,.55);padding:8px 14px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid var(--line)}
+.wrap{padding:88px max(24px,6vw);max-width:1240px;margin:auto}
+.panel{background:var(--panel);backdrop-filter:blur(12px)}
+.head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:36px;flex-wrap:wrap}
+.eyebrow{font-size:13px;color:var(--gold);margin-bottom:8px;font-weight:500}
+h2{font-family:var(--fh);font-weight:600;font-size:clamp(28px,3.6vw,42px);line-height:1.25;letter-spacing:-.01em}
+.head p{color:rgba(255,255,255,.5);font-size:15px;max-width:340px;line-height:1.7}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px}
+.card{border:1px solid var(--line);border-radius:22px;padding:12px;background:rgba(255,255,255,.03);transition:.3s}
+.card:hover{transform:translateY(-4px);border-color:rgba(212,176,90,.5)}
+.pic{height:180px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:60px;background:radial-gradient(circle at 50% 35%,var(--c1),var(--c2))}
+.info{padding:16px 8px 6px}
+.tag{font-size:12px;color:rgba(255,255,255,.45)}
+.info h3{font-size:16px;font-weight:500;margin:4px 0 0}
+.row{display:flex;justify-content:space-between;align-items:center;margin-top:16px}
+.price{font-family:var(--fh);font-size:20px;font-weight:500}
+.add{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid var(--line);color:#fff;font-size:20px;line-height:1;cursor:pointer;transition:.2s}
+.add:hover{background:var(--gold);color:#000;border-color:var(--gold)}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.step{padding:28px;border-radius:22px;border:1px solid var(--line);background:rgba(12,9,6,.6);backdrop-filter:blur(10px)}
+.step b{font-family:var(--fh);font-size:14px;color:var(--gold);font-weight:500}
+.step h3{margin:14px 0 8px;font-weight:500;font-size:19px}.step p{color:rgba(255,255,255,.55);line-height:1.7;font-size:14px}
+.stats{display:flex;gap:16px;flex-wrap:wrap;margin-top:16px}
+.stats div{flex:1;min-width:150px;padding:24px;border-radius:22px;border:1px solid var(--line);background:rgba(12,9,6,.6);backdrop-filter:blur(10px)}
+.stats b{display:block;font-family:var(--fh);font-size:34px;font-weight:600}
+.stats span{font-size:13px;color:rgba(255,255,255,.5)}
+.rev{padding:26px;border-radius:22px;border:1px solid var(--line);background:rgba(255,255,255,.03);font-size:15px;line-height:1.7;color:rgba(255,255,255,.8)}
+.rev i{display:block;margin-top:16px;font-style:normal;font-size:13px;color:rgba(255,255,255,.45)}
+.news{text-align:center}
+.news .wrap{padding-bottom:110px}
+.news form{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:28px}
+.news input{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.2);border-radius:999px;padding:14px 22px;color:#fff;font:15px 'Inter','Noto Sans Thai',sans-serif;min-width:280px}
+footer{position:relative;z-index:10;background:#000;padding:32px max(24px,6vw) calc(32px + env(safe-area-inset-bottom,0px));display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:13px;color:rgba(255,255,255,.4);border-top:1px solid var(--line)}
+.rv{opacity:0;transform:translateY(24px);transition:opacity .7s,transform .7s}.rv.in{opacity:1;transform:none}
+#toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,90px);z-index:60;background:#fff;color:#000;padding:12px 22px;border-radius:999px;font-size:14px;font-weight:500;transition:transform .35s}
+#toast.s{transform:translate(-50%,0)}
+@media(max-width:700px){.links{display:none}.hero{padding-top:36vh;justify-content:flex-end}.wrap{padding:64px 22px}.sub{font-size:15px}}
+
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.tile{padding:26px;border-radius:22px;border:1px solid var(--line);background:rgba(20,14,9,.7);backdrop-filter:blur(10px)}
+.tile b{font-family:var(--fh);font-size:14px;color:var(--gold);font-weight:500}
+.tile h3{margin:10px 0 8px;font-weight:500;font-size:19px}
+.tile p{color:rgba(255,255,255,.6);line-height:1.75;font-size:15px}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-top:16px}
+.facts .tile{padding:22px}
+.facts strong{display:block;font-family:var(--fh);font-size:28px;font-weight:600;margin-bottom:6px}
+.facts span{font-size:13px;color:rgba(255,255,255,.55);line-height:1.6}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}
+.tabs button{border:1px solid var(--line);background:rgba(255,255,255,.04);color:rgba(255,255,255,.7);border-radius:999px;padding:10px 20px;font:500 14px 'Inter','Noto Sans Thai',sans-serif;cursor:pointer;transition:.2s}
+.tabs button.on{background:var(--gold);color:#000;border-color:var(--gold)}
+.roast,.calc{padding:28px;border-radius:24px;border:1px solid var(--line);background:rgba(20,14,9,.7);backdrop-filter:blur(10px)}
+.rbody{display:grid;grid-template-columns:150px 1fr;gap:28px;align-items:center}
+#bean svg{width:150px;height:150px}
+.rbody h3{font-family:var(--fh);font-size:24px;font-weight:600;margin-bottom:8px}
+.rbody p{color:rgba(255,255,255,.6);line-height:1.75;font-size:15px;margin-bottom:18px}
+.bar{display:grid;grid-template-columns:90px 1fr;gap:12px;align-items:center;font-size:13px;color:rgba(255,255,255,.6);margin-bottom:8px}
+.bar i{height:6px;border-radius:9px;background:rgba(255,255,255,.1);display:block;overflow:hidden}
+.bar b{display:block;height:100%;background:var(--gold);border-radius:9px;transition:width .5s}
+.card .pic{height:170px;background:radial-gradient(circle at 50% 40%,#3a2515,#150d07)}
+.card .pic svg{height:130px}
+.card .info p{color:rgba(255,255,255,.55);font-size:14px;line-height:1.65;margin-top:6px}
+.cr label{font-size:15px;color:rgba(255,255,255,.75)}
+.cr input{width:100%;margin:14px 0 24px;accent-color:#D4B05A}
+.out{display:flex;gap:28px;align-items:center;flex-wrap:wrap}
+.out span{display:block;font-size:13px;color:rgba(255,255,255,.5);margin-bottom:4px}
+.out strong{font-family:var(--fh);font-size:52px;font-weight:600;color:var(--gold)}
+.out small{font-size:16px;color:rgba(255,255,255,.6)}
+.out p{flex:1;min-width:240px;color:rgba(255,255,255,.65);line-height:1.75;font-size:15px}
+.gal{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.gal figure{border-radius:22px;overflow:hidden;border:1px solid var(--line);background:#150d07}
+.gal svg{display:block;width:100%;height:auto}
+.gal figcaption{padding:14px 18px;font-size:14px;color:rgba(255,255,255,.65)}
+.faq details{border-bottom:1px solid var(--line);padding:20px 4px}
+.faq summary{cursor:pointer;font-size:17px;font-weight:500;list-style:none;display:flex;justify-content:space-between;gap:16px}
+.faq summary::after{content:"+";color:var(--gold);font-size:22px;line-height:1}
+.faq details[open] summary::after{content:"–"}
+.faq p{margin-top:12px;color:rgba(255,255,255,.6);line-height:1.8;font-size:15px}
+@media(max-width:700px){.rbody{grid-template-columns:1fr;text-align:left}#bean svg{width:110px;height:110px}}
+
+.panel{background:none;backdrop-filter:none;-webkit-backdrop-filter:none}
+.head,.faq,.head p{text-shadow:0 1px 14px rgba(0,0,0,.9)}
+.tile,.roast,.calc{background:rgba(16,11,7,.78)}
+.card{background:rgba(16,11,7,.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+</style>
+<script>if("scrollRestoration" in history)history.scrollRestoration="manual";</script>
+</head>
+<body>
+<div id="stage"></div>
+<nav>
+  <div class="brand"><i></i>Coffee Notes</div>
+  <div class="links"><a href="#journey">จากเมล็ดสู่แก้ว</a><a href="#beans">เมล็ดและการคั่ว</a><a href="#menu">เมนู</a><a href="#faq">ถามตอบ</a></div>
+  <a class="cart" href="#calc" style="text-decoration:none">คำนวณสัดส่วนชง</a>
+</nav>
+
+<section class="hero">
+  <div class="badge">คู่มือกาแฟสำหรับมือใหม่</div>
+  <h1>เข้าใจกาแฟ<br><em>ให้ลึกขึ้นอีกนิด</em></h1>
+  <p class="sub">ตั้งแต่ต้นกาแฟ เมล็ด ระดับการคั่ว ไปจนถึงเมนูที่เห็นในคาเฟ่และสัดส่วนการชงเองที่บ้าน อ่านง่าย ไม่ต้องมีพื้นฐาน</p>
+  <div class="btns"><a class="cta" href="#journey">เริ่มอ่านคู่มือ</a><a class="ghost" href="#calc">ลองคำนวณสัดส่วนชง</a></div>
+  <div class="chips"><span>6 ขั้นตอนจากไร่ถึงแก้ว</span><span>รู้จักเมนูยอดนิยม</span><span>เครื่องมือคำนวณสัดส่วน</span></div>
+</section>
+
+<section id="journey" class="panel"><div class="wrap">
+  <div class="head rv"><div><div class="eyebrow">จากเมล็ดสู่แก้ว</div><h2>กว่าจะเป็นกาแฟหนึ่งแก้ว</h2></div><p>ทุกขั้นตอนมีผลต่อรสชาติที่เราดื่มในที่สุด</p></div>
+  <div class="grid3">
+    <div class="tile rv"><b>01</b><h3>ปลูก</h3><p>ต้นกาแฟใช้เวลาราว 3–4 ปีจึงเริ่มให้ผลผลิต และชอบอากาศเย็นในพื้นที่สูง</p></div>
+    <div class="tile rv"><b>02</b><h3>เก็บเกี่ยว</h3><p>เลือกเก็บเฉพาะผลสีแดงสุก เพราะความสุกสม่ำเสมอทำให้รสชาติสะอาด</p></div>
+    <div class="tile rv"><b>03</b><h3>แปรรูป</h3><p>Washed, Natural และ Honey ต่างกันที่วิธีนำเนื้อผลออกจากเมล็ด ให้รสต่างกัน</p></div>
+    <div class="tile rv"><b>04</b><h3>คั่ว</h3><p>ความร้อนสูงกว่า 200°C ทำให้เกิดกลิ่นและรสชาติที่เรารู้จัก</p></div>
+    <div class="tile rv"><b>05</b><h3>บด</h3><p>บดก่อนชงจะได้กลิ่นสดกว่า ขนาดที่บดต้องเหมาะกับวิธีชง</p></div>
+    <div class="tile rv"><b>06</b><h3>ชง</h3><p>สัดส่วน อุณหภูมิ และเวลา คือสามสิ่งที่ควบคุมรสชาติสุดท้าย</p></div>
+  </div>
+  <div class="facts">
+    <div class="tile rv"><strong>2</strong><span>ชนิดหลัก คืออาราบิก้าและโรบัสต้า</span></div>
+    <div class="tile rv"><strong>92–96°C</strong><span>อุณหภูมิน้ำที่นิยมใช้ชง</span></div>
+    <div class="tile rv"><strong>1:16</strong><span>สัดส่วนกาแฟต่อน้ำของดริปโดยทั่วไป</span></div>
+    <div class="tile rv"><strong>1–4 สัปดาห์</strong><span>ช่วงที่เมล็ดหลังคั่วหอมสดที่สุด</span></div>
+  </div>
+</div></section>
+
+<section id="beans"><div class="wrap">
+  <div class="head rv"><div><div class="eyebrow">เมล็ดกาแฟ</div><h2>อาราบิก้า กับ โรบัสต้า</h2></div><p>สองสายพันธุ์หลักที่ให้บุคลิกกาแฟต่างกันชัดเจน</p></div>
+  <div class="grid2">
+    <div class="tile rv"><h3>อาราบิก้า</h3><p>รสหวานเปรี้ยว กลิ่นซับซ้อน มีคาเฟอีนราว 1.2–1.5% ปลูกในพื้นที่สูงและอากาศเย็น เป็นชนิดที่พบมากในกาแฟพิเศษ</p></div>
+    <div class="tile rv"><h3>โรบัสต้า</h3><p>รสเข้ม ขม บอดี้หนัก มีคาเฟอีนราว 2–2.7% ทนโรคและปลูกในที่ต่ำกว่าได้ นิยมใช้ในกาแฟสำเร็จรูปและเบลนด์เอสเปรสโซ</p></div>
+  </div>
+  <div class="head rv" style="margin-top:72px"><div><div class="eyebrow">ระดับการคั่ว</div><h2>เลือกดูรสชาติตามการคั่ว</h2></div></div>
+  <div class="roast rv">
+    <div class="tabs" id="tabs"></div>
+    <div class="rbody"><div id="bean"></div><div><h3 id="rt"></h3><p id="rd"></p><div id="bars"></div></div></div>
+  </div>
+</div></section>
+
+<section id="menu" class="panel"><div class="wrap">
+  <div class="head rv"><div><div class="eyebrow">เมนูที่ควรรู้จัก</div><h2>ต่างกันตรงไหน</h2></div><p>ภาพแสดงสัดส่วนชั้นของเครื่องดื่มโดยประมาณ</p></div>
+  <div class="grid" id="drinks"></div>
+</div></section>
+
+<section id="calc"><div class="wrap">
+  <div class="head rv"><div><div class="eyebrow">ชงเองที่บ้าน</div><h2>คำนวณสัดส่วนกาแฟกับน้ำ</h2></div><p>เลือกวิธีชง แล้วเลื่อนปรับปริมาณกาแฟ</p></div>
+  <div class="calc rv">
+    <div class="tabs" id="mt"></div>
+    <div class="cr"><label>กาแฟ <b id="cg">20</b> กรัม</label><input type="range" id="cs" min="10" max="40" value="20"></div>
+    <div class="out"><div><span id="wl">ปริมาณน้ำ</span><strong id="wv">320</strong> <small>มล.</small></div><p id="tip"></p></div>
+  </div>
+</div></section>
+
+<section class="panel"><div class="wrap">
+  <div class="head rv"><div><div class="eyebrow">บรรยากาศคาเฟ่</div><h2>มุมสบาย ๆ ของคนรักกาแฟ</h2></div><p>ภาพประกอบวาดขึ้นเอง ไม่มีปัญหาลิขสิทธิ์</p></div>
+  <div class="gal">
+    <figure class="rv"><svg viewBox="0 0 400 300"><defs><linearGradient id="g1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a2415"/><stop offset="1" stop-color="#1b110a"/></linearGradient></defs><rect width="400" height="300" fill="url(#g1)"/><rect x="230" y="40" width="130" height="150" rx="6" fill="#9cc4d9"/><rect x="230" y="40" width="130" height="150" rx="6" fill="none" stroke="#6b4a2f" stroke-width="7"/><path d="M295 40v150M230 115h130" stroke="#6b4a2f" stroke-width="5"/><circle cx="330" cy="75" r="18" fill="#ffe9a8"/><g stroke="#d9b56a" stroke-width="2"><path d="M70 0v60M140 0v40"/></g><path d="M50 60a20 20 0 0 1 40 0z" fill="#d9a441"/><path d="M120 40a20 20 0 0 1 40 0z" fill="#d9a441"/><ellipse cx="70" cy="62" rx="20" ry="4" fill="#ffe9a8" opacity=".7"/><ellipse cx="140" cy="42" rx="20" ry="4" fill="#ffe9a8" opacity=".7"/><rect x="0" y="215" width="400" height="85" fill="#5b3a20"/><rect x="0" y="215" width="400" height="8" fill="#7a4f2b"/><path d="M60 215c-6-22-4-40 2-56 8 16 10 34 4 56zM74 215c0-20 8-38 20-48-2 18-6 34-10 48z" fill="#4f8a55"/><rect x="52" y="208" width="34" height="10" rx="3" fill="#a5623a"/><ellipse cx="170" cy="230" rx="52" ry="10" fill="#efe3cf"/><path d="M138 190h64l-8 38h-48z" fill="#fff"/><ellipse cx="170" cy="190" rx="32" ry="6" fill="#6b3a1c"/><path d="M202 198q22 2 16 20" fill="none" stroke="#fff" stroke-width="6"/><path d="M160 170q-8-14 0-26M180 172q-8-14 0-26" fill="none" stroke="#fff" stroke-opacity=".45" stroke-width="3" stroke-linecap="round"/></svg><figcaption>มุมริมหน้าต่างยามบ่าย</figcaption></figure>
+    <figure class="rv"><svg viewBox="0 0 400 300"><rect width="400" height="300" fill="#2a1a10"/><circle cx="200" cy="150" r="118" fill="#e9dcc8"/><circle cx="200" cy="150" r="98" fill="#fff"/><circle cx="200" cy="150" r="84" fill="#6b3a1c"/><circle cx="200" cy="150" r="84" fill="none" stroke="#8a5227" stroke-width="4"/><path d="M200 218C150 180 140 130 176 122c17-3 24 11 24 17 0-6 7-20 24-17 36 8 26 58-24 96z" fill="#f6ead4"/><path d="M200 132v70" stroke="#6b3a1c" stroke-width="3"/><path d="M314 150h44a14 14 0 0 1 0 28h-40" fill="none" stroke="#fff" stroke-width="12" stroke-linecap="round"/></svg><figcaption>ลาเต้อาร์ตมองจากด้านบน</figcaption></figure>
+    <figure class="rv"><svg viewBox="0 0 400 300"><rect width="400" height="300" fill="#6a4426"/><path d="M0 60h400M0 130h400M0 200h400M0 270h400" stroke="#573719" stroke-width="3"/><g id="bn"></g><path d="M40 240h130l-14 40H54z" fill="#b98a55"/><ellipse cx="105" cy="240" rx="65" ry="10" fill="#8a5e33"/></svg><figcaption>เมล็ดกาแฟคั่วสด</figcaption></figure>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="head rv"><div><div class="eyebrow">กาแฟไทย</div><h2>แหล่งปลูกในประเทศไทย</h2></div></div>
+  <div class="grid2">
+    <div class="tile rv"><h3>ภาคเหนือ · อาราบิก้า</h3><p>ปลูกบนพื้นที่สูงในเชียงราย เชียงใหม่ น่าน และจังหวัดใกล้เคียง อากาศเย็นช่วยให้เมล็ดมีกลิ่นหอมและความเปรี้ยวที่ซับซ้อน</p></div>
+    <div class="tile rv"><h3>ภาคใต้ · โรบัสต้า</h3><p>ชุมพรและระนองเป็นแหล่งปลูกสำคัญ เมล็ดมีบอดี้หนัก รสเข้ม นิยมใช้ในกาแฟโบราณและกาแฟสำเร็จรูป</p></div>
+  </div>
+</div></section>
+
+<section id="faq" class="panel"><div class="wrap">
+  <div class="head rv"><div><div class="eyebrow">ถามตอบ</div><h2>คำถามที่พบบ่อย</h2></div></div>
+  <div class="faq rv">
+    <details><summary>เก็บเมล็ดกาแฟอย่างไรให้หอมนาน</summary><p>เก็บในถุงหรือกระปุกที่ปิดสนิท วางในที่แห้ง เย็น และไม่โดนแสง ไม่จำเป็นต้องแช่ตู้เย็น</p></details>
+    <details><summary>ควรซื้อเมล็ดแล้วบดเอง หรือซื้อแบบบดสำเร็จ</summary><p>บดก่อนชงจะได้กลิ่นสดกว่า แต่ถ้าซื้อแบบบดแล้ว ควรใช้ให้หมดภายใน 1–2 สัปดาห์</p></details>
+    <details><summary>ทำไมกาแฟที่ชงเองถึงขม</summary><p>มักเกิดจากบดละเอียดเกินไป น้ำร้อนเกินไป สกัดนานเกินไป หรือใช้เมล็ดคั่วเข้ม ลองปรับทีละอย่าง</p></details>
+    <details><summary>ดื่มกาแฟวันละกี่แก้วถึงเหมาะสม</summary><p>โดยทั่วไปผู้ใหญ่สุขภาพดีควรรับคาเฟอีนไม่เกินราว 400 มิลลิกรัมต่อวัน ซึ่งเท่ากับกาแฟประมาณ 3–4 แก้ว หากตั้งครรภ์หรือมีโรคประจำตัว ควรปรึกษาแพทย์</p></details>
+  </div>
+</div></section>
+
+<footer><span>© 2026 Coffee Notes</span><span>เนื้อหาเพื่อความรู้ทั่วไป</span></footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/CopyShader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/EffectComposer.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/RenderPass.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/ShaderPass.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+const io=new IntersectionObserver(es=>es.forEach(x=>x.isIntersecting&&x.target.classList.add('in')),{threshold:.12});
+const watch=()=>document.querySelectorAll('.rv:not(.in)').forEach(e=>io.observe(e));
+
+/* เมนูเครื่องดื่ม พร้อมภาพชั้นของเครื่องดื่ม */
+const cup=(L,id)=>{let y=120,r='';L.forEach(([c,h])=>{y-=h;r+=`<rect x="10" y="${y}" width="100" height="${h+.5}" fill="${c}"/>`});return `<svg viewBox="0 0 120 140"><defs><clipPath id="k${id}"><path d="M24 20h72l-6 100H30z"/></clipPath></defs><g clip-path="url(#k${id})">${r}</g><path d="M24 20h72l-6 100H30z" fill="none" stroke="rgba(255,255,255,.45)" stroke-width="2"/><path d="M95 40q22 0 20 22t-24 22" fill="none" stroke="rgba(255,255,255,.45)" stroke-width="3"/><ellipse cx="60" cy="124" rx="44" ry="6" fill="rgba(255,255,255,.15)"/></svg>`};
+const E='#2b140a',CR='#b97a3d',M='#e8d3b5',F='#f7efe2';
+const D=[
+ ['เอสเปรสโซ','ช็อตเข้มข้นราว 30 มล. มีชั้นครีมาสีทองด้านบน เป็นฐานของเมนูส่วนใหญ่','เอสเปรสโซล้วน',[[E,85],[CR,15]]],
+ ['อเมริกาโน','เอสเปรสโซผสมน้ำร้อน รสเบาลง ดื่มง่าย ได้ปริมาณเยอะขึ้น','เอสเปรสโซ + น้ำร้อน',[[E,30],['#5a3218',60],[CR,10]]],
+ ['ลาเต้','นมสตีมเยอะ โฟมบาง รสนุ่มหวานกลมกล่อม','เอสเปรสโซ + นมสตีม',[[E,20],[M,65],[F,15]]],
+ ['คาปูชิโน','เอสเปรสโซ นมสตีม และโฟมนม อย่างละเท่า ๆ กัน','เอสเปรสโซ + นม + โฟม',[[E,33],[M,33],[F,34]]],
+ ['แฟลตไวท์','เอสเปรสโซเข้มขึ้น ผสมไมโครโฟมบาง รสกาแฟชัดกว่าลาเต้','เอสเปรสโซ + ไมโครโฟม',[[E,35],[M,60],[F,5]]],
+ ['มอคค่า','ลาเต้ผสมช็อกโกแลต หวานมัน','ช็อกโกแลต + เอสเปรสโซ + นม',[['#4b2a1a',20],[E,20],[M,45],[F,15]]]];
+$('drinks').innerHTML=D.map((d,i)=>`<div class="card rv"><div class="pic">${cup(d[3],i)}</div><div class="info"><div class="tag">${d[2]}</div><h3>${d[0]}</h3><p>${d[1]}</p></div></div>`).join('');
+
+/* เมล็ดกาแฟตกแต่งในภาพ */
+$('bn').innerHTML=Array.from({length:22},(_,i)=>{const x=190+(i%6)*34+(i%2)*10,y=40+Math.floor(i/6)*48+(i*7%12),r=(i*47)%180;return `<g transform="translate(${x} ${y}) rotate(${r})"><ellipse rx="15" ry="10" fill="hsl(${22+i%3*3} 55% ${18+i%4*4}%)"/><path d="M-13 0q13-6 26 0" fill="none" stroke="#1b0d05" stroke-width="2"/></g>`}).join('');
+
+/* ระดับการคั่ว */
+const R=[
+ ['คั่วอ่อน','รสเปรี้ยวสดชื่น กลิ่นดอกไม้และผลไม้ เหมาะกับการดริปและเมล็ดคุณภาพสูง','#8a5a2b',[85,35,20,55]],
+ ['คั่วกลาง','รสสมดุล หวานคาราเมล เหมาะกับคนส่วนใหญ่และชงได้หลายวิธี','#5c3317',[55,60,45,70]],
+ ['คั่วเข้ม','บอดี้หนัก กลิ่นโกโก้และควันอ่อน ๆ เหมาะกับเอสเปรสโซและเมนูนม','#2a140a',[20,85,80,40]]];
+const NM=['ความเปรี้ยว','บอดี้','ความขม','ความหวาน'];
+function setRoast(k){const r=R[k];$('rt').textContent=r[0];$('rd').textContent=r[1];
+ $('bean').innerHTML=`<svg viewBox="0 0 120 120"><g transform="rotate(-30 60 60)"><ellipse cx="60" cy="60" rx="34" ry="48" fill="${r[2]}"/><path d="M60 14C48 40 72 80 60 106" fill="none" stroke="#000" stroke-opacity=".55" stroke-width="4"/></g></svg>`;
+ $('bars').innerHTML=r[3].map((v,i)=>`<div class="bar"><span>${NM[i]}</span><i><b style="width:${v}%"></b></i></div>`).join('');
+ [...$('tabs').children].forEach((b,i)=>b.classList.toggle('on',i==k))}
+$('tabs').innerHTML=R.map((r,i)=>`<button data-k="${i}">${r[0]}</button>`).join('');
+$('tabs').onclick=e=>{const b=e.target.closest('button');b&&setRoast(+b.dataset.k)};setRoast(1);
+
+/* เครื่องคำนวณสัดส่วน */
+const MT=[
+ ['เอสเปรสโซ',2,'ปริมาณกาแฟที่ได้','สกัดราว 25–30 วินาที น้ำ 92–96°C บดละเอียด'],
+ ['ดริป',16,'ปริมาณน้ำ','น้ำ 92–96°C เทเป็นวงกลม ใช้เวลาราว 2:30–3:30 นาที บดขนาดปานกลาง'],
+ ['เฟรนช์เพรส',12,'ปริมาณน้ำ','บดหยาบ แช่ประมาณ 4 นาที แล้วกดช้า ๆ'],
+ ['โคลด์บรูว์',8,'ปริมาณน้ำ','บดหยาบ แช่ในตู้เย็น 12–18 ชั่วโมง ได้น้ำเข้มข้น ผสมน้ำหรือนมตอนดื่ม']];
+let mi=1;
+function calc(){const m=MT[mi],g=+$('cs').value;$('cg').textContent=g;$('wv').textContent=Math.round(g*m[1]);$('wl').textContent=m[2]+' · สัดส่วน 1:'+m[1];$('tip').textContent=m[3];
+ [...$('mt').children].forEach((b,i)=>b.classList.toggle('on',i==mi))}
+$('mt').innerHTML=MT.map((m,i)=>`<button data-k="${i}">${m[0]}</button>`).join('');
+$('mt').onclick=e=>{const b=e.target.closest('button');if(b){mi=+b.dataset.k;calc()}};
+$('cs').oninput=calc;calc();
+watch();
+
+/* ---------- แก้วกาแฟจากอนุภาค ---------- */
+const mobile=innerWidth<700;
+const COUNT=mobile?7000:16000;
+const scene=new THREE.Scene();scene.fog=new THREE.FogExp2(0,0.006);
+const cam=new THREE.PerspectiveCamera(50,innerWidth/innerHeight,.1,1000);cam.position.set(0,18,120);
+const rd=new THREE.WebGLRenderer({antialias:true,powerPreference:'high-performance'});
+rd.setPixelRatio(Math.min(devicePixelRatio,2));rd.setSize(innerWidth,innerHeight);$('stage').appendChild(rd.domElement);
+const comp=new THREE.EffectComposer(rd);comp.addPass(new THREE.RenderPass(scene,cam));
+const bloom=new THREE.UnrealBloomPass(new THREE.Vector2(innerWidth,innerHeight),1.2,.5,.1);bloom.strength=1.3;comp.addPass(bloom);
+const mesh=new THREE.InstancedMesh(new THREE.TetrahedronGeometry(.22),new THREE.MeshBasicMaterial({color:0xffffff}),COUNT);
+mesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);scene.add(mesh);
+const pos=[],d=new THREE.Object3D(),tg=new THREE.Vector3(),col=new THREE.Color();
+for(let i=0;i<COUNT;i++){pos.push(new THREE.Vector3((Math.random()-.5)*80,(Math.random()-.5)*80,(Math.random()-.5)*80));mesh.setColorAt(i,col.setHex(0xc9a84c))}
+const clock=new THREE.Clock();let sc=0;
+addEventListener('scroll',()=>{sc=scrollY/Math.max(1,document.body.scrollHeight-innerHeight)},{passive:true});
+addEventListener('resize',()=>{cam.aspect=innerWidth/innerHeight;cam.updateProjectionMatrix();rd.setSize(innerWidth,innerHeight);comp.setSize(innerWidth,innerHeight)});
+
+/* คลิก/แตะแล้วลากเพื่อหมุนโมเดล */
+let dragY=0,dragX=0,velY=0,velX=0,drag=false,lx=0,ly=0;
+addEventListener('pointerdown',e=>{if(e.target.closest('a,button,input,nav,section:not(.hero),.chips'))return;drag=true;lx=e.clientX;ly=e.clientY;velY=velX=0});
+addEventListener('pointermove',e=>{if(!drag)return;const dx=e.clientX-lx,dy=e.clientY-ly;lx=e.clientX;ly=e.clientY;velY=dx*.008;velX=dy*.005;dragY+=velY;dragX=Math.max(-.7,Math.min(.7,dragX+velX))});
+['pointerup','pointercancel'].forEach(k=>addEventListener(k,()=>{drag=false}));
+
+const S=32;
+const oa=[0,0,0,0,0,0],ob=[0,0,0,0,0,0];
+/* kd: 0 = เมล็ดกาแฟเม็ดใหญ่, 1 = น้ำกาแฟสีน้ำตาลไหลวน, 2 = แก้วกาแฟเต็มใบพร้อมไอร้อน */
+function shape(kd,i,u,r1,r2,r3,r4,time,o){
+  let x=0,y=0,z=0,h=.07,s=.6,l=.3;
+  if(kd==0){
+    const AX=.95,AY=.62,AZ=.45;
+    const ph=((i*.6180339887)%1)*6.2832,ct=((i*.7548776662)%1)*2-1,sq=Math.sqrt(1-ct*ct);
+    let lx=AX*sq*Math.cos(ph),ly=AY*sq*Math.sin(ph),lz=AZ*ct,crease=0;
+    if(r3>.78){ /* รอยแยกกลางเมล็ดรูปตัว S */
+      lx=r1*AX*.96;ly=Math.sin(lx*3.2)*.09+r4*.012;
+      lz=AZ*Math.sqrt(Math.max(0,1-(lx/AX)**2)*Math.max(0,1-(ly/AY)**2))*.9;crease=1;
+    }else if(lz>0){ /* ร่องลึกลงไปรอบรอยแยก */
+      const dd=(ly-Math.sin(lx*3.2)*.09)/.1;lz*=1-.16*Math.exp(-dd*dd);
+    }
+    x=lx;y=ly+.45;z=lz;
+    h=.07;s=.72;l=crease?.05:.2+.2*Math.max(0,lz/AZ)+r2*.03;
+  }else if(kd==1){
+    const t=(((r1*.5+.5)+time*.2)%1),a=t*10+r2*2.5+time*2,rad=(.1+.75*Math.pow(1-t,1.4))*(.85+.3*Math.abs(r3));
+    x=Math.cos(a)*rad;z=Math.sin(a)*rad;y=2.7-t*2.7;
+    if(r4>.92){x*=1.5;z*=1.5;y+=Math.sin(time*3+i)*.1} /* หยดน้ำกระเซ็น */
+    h=.07;s=.8;l=.2+.28*(Math.sin(a*2+time*3)*.5+.5);
+  }else if(u<.35){
+    const a=(r1*.5+.5)*6.2832,yy=(r2*.5+.5),rad=.62+.3*yy;
+    x=Math.cos(a)*rad;z=Math.sin(a)*rad;y=yy;h=.09;s=.25;l=.55+.3*yy+r3*.05;
+  }else if(u<.45){
+    const a=(r1*.5+.5)*6.2832,rad=Math.sqrt(Math.abs(r2))*.86,rp=Math.sin(rad*14-time*1.5);
+    x=Math.cos(a)*rad;z=Math.sin(a)*rad;y=.93+rp*.012;h=.07;s=.85;l=.2+(rp*.5+.5)*.2;
+  }else if(u<.55){
+    const a=(r1*.5+.5)*6.2832,rad=.7+Math.abs(r2)*.8;
+    x=Math.cos(a)*rad;z=Math.sin(a)*rad;y=-.04+rad*.03;h=.11;s=.6;l=.5+r3*.08;
+  }else if(u<.62){
+    const a=r1*1.75,rr=.33+r3*.03;
+    x=1.0+Math.cos(a)*rr;y=.5+Math.sin(a)*rr;z=r4*.05;h=.11;s=.6;l=.5;
+  }else if(u<.85){ /* น้ำกาแฟกระเซ็นเหมือนโฆษณา: เสาน้ำตรงกลาง + มงกุฎน้ำรอบขอบ + หยดน้ำกระเด็น */
+    const v=(u-.62)/.23,ph=(i*.6180339887)%1,q=(ph+time*.32)%1,g=(i*.7548776662)%1;
+    if(v<.25){ /* เสาน้ำตรงกลางพุ่งขึ้นมีหัวบาน */
+      const a=g*6.2832*7+time,rad=(.09+.32*Math.pow(q,3))*(.6+.4*Math.abs(r3));
+      x=Math.cos(a)*rad;z=Math.sin(a)*rad;y=.93+q*2.1;
+    }else if(v<.7){ /* มงกุฎน้ำ 14 แฉก พุ่งออกแล้วตกลง */
+      const j=Math.floor(g*14),a=j/14*6.2832+r3*.07+time*.05,hj=.7+.5*Math.abs(Math.sin(j*2.7)),
+            rad=.25+.72*q+r4*.05*q;
+      x=Math.cos(a)*rad;z=Math.sin(a)*rad;y=.93+hj*1.55*4*q*(1-q)+r2*.03;
+    }else{ /* หยดน้ำกระเด็นเป็นวิถีโค้ง */
+      const a=r1*3.1416+ph*6.2832,sp=.5+.9*Math.abs(r2),vy=1.5+1.8*Math.abs(r3);
+      x=Math.cos(a)*sp*q*1.7;z=Math.sin(a)*sp*q*1.7;y=.93+vy*4*q*(1-q);
+    }
+    h=.07;s=.82;l=.24+.34*Math.pow(1-Math.abs(q-.45)*1.8,2)*(q<.95?1:.3)+.06*r3;
+  }else{
+    const a=(r1*.5+.5)*6.2832+time*.18*(.4+Math.abs(r2)),rad=1.9+Math.abs(r3)*1.6;
+    x=Math.cos(a)*rad;z=Math.sin(a)*rad;y=.4+r4*1.3+Math.sin(time*.8+i)*.08;h=.07+r2*.02;s=.75;l=.22+Math.abs(r1)*.2;
+  }
+  o[0]=x;o[1]=y;o[2]=z;o[3]=h;o[4]=s;o[5]=l;
+}
+let mm=0;
+function frame(){
+  requestAnimationFrame(frame);
+  const time=clock.getElapsedTime();
+  const mt=Math.min(1,Math.max(0,(sc-.02)/.72))*2;mm+=(mt-mm)*.06;
+  const seg=mm<=1?0:1,tt=seg?mm-1:mm;
+  for(let i=0;i<COUNT;i++){
+    const u=i/COUNT,r1=Math.sin(i*13.412),r2=Math.cos(i*37.193),r3=Math.sin(i*73.912),r4=Math.cos(i*103.11);
+    shape(seg,i,u,r1,r2,r3,r4,time,oa);
+    let x=oa[0],y=oa[1],z=oa[2],h=oa[3],s=oa[4],l=oa[5];
+    if(tt>.001){
+      shape(seg+1,i,u,r1,r2,r3,r4,time,ob);
+      let w=Math.min(1,Math.max(0,tt*1.7-(r4*.5+.5)*.7));w=w*w*(3-2*w);
+      x+=(ob[0]-x)*w;y+=(ob[1]-y)*w;z+=(ob[2]-z)*w;h+=(ob[3]-h)*w;s+=(ob[4]-s)*w;l+=(ob[5]-l)*w;
+    }
+    tg.set(x*S,y*S-14,z*S);col.setHSL(h,s,l);
+    pos[i].lerp(tg,.1);d.position.copy(pos[i]);d.updateMatrix();mesh.setMatrixAt(i,d.matrix);mesh.setColorAt(i,col);
+  }
+  mesh.instanceMatrix.needsUpdate=true;mesh.instanceColor.needsUpdate=true;
+  if(!drag){dragY+=velY;velY*=.94;dragX*=.97}
+  mesh.rotation.y=time*.15+sc*Math.PI*3+dragY;
+  mesh.rotation.x=sc*.5+dragX;
+  const side=mobile?0:Math.cos(sc*Math.PI*2)*32;
+  mesh.position.x+=(side-mesh.position.x)*.06;
+  const up=mobile?18-sc*22:0;mesh.position.y+=(up-mesh.position.y)*.06;
+  cam.lookAt(0,4,0);
+  comp.render();
+}
+frame();
+
+/* เปิดหน้าเว็บทุกครั้งให้อยู่บนสุด */
+function toTop(){const h=document.documentElement;h.style.scrollBehavior='auto';scrollTo(0,0);sc=0;requestAnimationFrame(()=>{h.style.scrollBehavior=''})}
+if(location.hash)history.replaceState(null,'',location.pathname+location.search);
+toTop();addEventListener('load',toTop);addEventListener('pageshow',toTop);
+</script>
+</body>
+</html>
